@@ -19,6 +19,8 @@ setup(
     install_requires=[
         "pysam >= 0.8.1",
         "matplotlib",
+        "datrie",
+        "biopython"
     ],
     classifiers=[
     ],
