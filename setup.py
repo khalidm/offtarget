@@ -14,7 +14,7 @@ setup(
     },
     url='https://github.com/bjpop/offtarget',
     license='LICENSE.txt',
-    description='Plot offtarget reads for Hi-Plex sequence data',
+    description='Plot offtarget reads for targeted sequence data',
     #long_description=open('README.txt').read(),
     install_requires=[
         "pysam >= 0.8.1",
