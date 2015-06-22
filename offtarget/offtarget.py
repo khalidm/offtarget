@@ -200,7 +200,7 @@ def process_bam(args, read_id_to_primers):
         if (read_id, read_number) in read_id_to_primers:
             primers = read_id_to_primers[(read_id, read_number)]
             # check that the read is aligned to the reference
-            if is_valid_read(args, read):
+            if not read.is_unmapped:
                 num_mapped_reads += 1
                 read_start_pos = read.pos
                 read_end_pos = read.aend - 1
@@ -268,10 +268,6 @@ def plot_counts(args, title, extension, counts):
     output_filename = bamfile_basename + '.' + extension + '.png'
     plt.savefig(output_filename)
     plt.close()
-
-
-def is_valid_read(args, read):
-    return read.rname > 0 and read.pos is not None and read.aend is not None
 
 def main():
     args = parse_args()
