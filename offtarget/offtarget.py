@@ -41,6 +41,8 @@ offtarget --prefix 15 --primers primer_coords.tsv \
 '''
 
 import pysam
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 import csv
 from argparse import ArgumentParser
