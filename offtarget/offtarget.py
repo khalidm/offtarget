@@ -74,14 +74,14 @@ def start_log(log):
 def parse_args():
     parser = ArgumentParser(description=DESCRIPTION)
     parser.add_argument('--primers', type=str, required=True,
-        help='Name of input primer file, in CSV format: CHROM POS_FWD POS_REV NAME_FWD NAME_REV SEQ_FWD SEQ_REV'),
+        help='Name of input primer file, in CSV format: CHROM POS_FWD POS_REV NAME_FWD NAME_REV SEQ_FWD PRIM_FWD_START PRIM_FWD_END SCORE SEQ_REV'),
     parser.add_argument('--fastq1', type=str,
         help='Fastq file representing all read 1s in all read pairs')
     parser.add_argument('--fastq2', type=str,
         help='Fastq file representing all read 2s in all read pairs')
     parser.add_argument('--bam', type=str,
         help='Name of input BAM file')
-    parser.add_argument('--prefix', type=int, required=False, 
+    parser.add_argument('--prefix', type=int, required=False,
         help='Length of primer prefix to test against reads, defaults to unbounded')
     parser.add_argument(
         '--log', metavar='FILE', type=str, default=DEFAULT_LOG_FILE,
@@ -108,7 +108,7 @@ def read_primers(args):
         reader = csv.reader(primer_file, delimiter='\t')
         for row in reader:
             try:
-                chrom, pos_fwd, pos_rev, name_fwd, name_rev, seq_fwd, seq_rev = row[:7]
+                chrom, pos_fwd, pos_rev, name_fwd, name_rev, seq_fwd, prim_fws_start, prim_fwd_end prim_score seq_rev = row[:10]
                 pos_fwd = int(pos_fwd)
                 pos_rev = int(pos_rev)
             except ValueError:
@@ -123,7 +123,7 @@ def read_primers(args):
                     # use the whole primer in the trie
                     seq_fwd = unicode(seq_fwd.upper())
                     seq_rev = unicode(seq_rev.upper())
-                trie[unicode(seq_fwd)] = PrimerInfo(chrom, 'fwd', name_fwd, pos_fwd, seq_fwd) 
+                trie[unicode(seq_fwd)] = PrimerInfo(chrom, 'fwd', name_fwd, pos_fwd, seq_fwd)
                 trie[unicode(seq_rev)] = PrimerInfo(chrom, 'rev', name_rev, pos_rev, seq_rev)
     return trie, primer_names
 
@@ -193,7 +193,7 @@ def process_bam(args, read_id_to_primers):
     for read in bam:
         num_reads += 1
         read_id = read.qname
-        read_number = None 
+        read_number = None
         if read.is_read1:
             read_number = 1
         if read.is_read2:
@@ -257,7 +257,7 @@ def print_primer_counts(args, primer_names, primer_counts):
             unmapped_counts.append(0)
     plot_counts(args, 'On target', 'on_target', on_target_counts)
     plot_counts(args, 'Off target', 'off_target', off_target_counts)
-    plot_counts(args, 'Off target mapped', 'on_target_mapped', off_target_mapped_counts) 
+    plot_counts(args, 'Off target mapped', 'on_target_mapped', off_target_mapped_counts)
     plot_counts(args, 'Unmapped', 'unmapped', unmapped_counts)
 
 def plot_counts(args, title, extension, counts):
