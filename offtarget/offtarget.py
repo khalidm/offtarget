@@ -108,7 +108,7 @@ def read_primers(args):
         reader = csv.reader(primer_file, delimiter='\t')
         for row in reader:
             try:
-                chrom, pos_fwd, pos_rev, name_fwd, name_rev, seq_fwd, prim_fws_start, prim_fwd_end prim_score seq_rev = row[:10]
+                chrom, pos_fwd, pos_rev, name_fwd, name_rev, seq_fwd, prim_fws_start, prim_fwd_end, prim_score, seq_rev = row[:10]
                 pos_fwd = int(pos_fwd)
                 pos_rev = int(pos_rev)
             except ValueError:
