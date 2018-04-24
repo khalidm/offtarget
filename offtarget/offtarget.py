@@ -226,7 +226,10 @@ def process_bam(args, read_id_to_primers):
                 # An unmapped read
                 num_unmapped_reads += 1
                 for primer in primers:
-                    primer_counts[primer.name].off_target += 1
+                    # An umapped read is technically offtarget but to
+                    # avoid double counting we will not increment the
+                    # off_target count and only increment the unmapped count
+                    #primer_counts[primer.name].off_target += 1
                     primer_counts[primer.name].unmapped += 1
     logging.info("Number reads {}".format(num_reads))
     logging.info("Number mapped reads {}".format(num_mapped_reads))
