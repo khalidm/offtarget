@@ -231,6 +231,9 @@ def process_bam(args, read_id_to_primers):
                     # off_target count and only increment the unmapped count
                     #primer_counts[primer.name].off_target += 1
                     primer_counts[primer.name].unmapped += 1
+        else:
+            primer_counts[primer.name].unmapped += 1
+
     logging.info("Number reads {}".format(num_reads))
     logging.info("Number mapped reads {}".format(num_mapped_reads))
     logging.info("Number unmapped reads {}".format(num_unmapped_reads))
