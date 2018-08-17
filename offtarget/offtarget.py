@@ -215,7 +215,7 @@ def process_bam(args, read_id_to_primers):
                 # but we are a bit more generous just in case the
                 # test for a primer found multiple possible solutions
                 for primer in primers:
-                    overlap = read_start_pos <= primer.pos <= read_end_pos
+                    overlap = read_start_pos-10 <= primer.pos <= read_end_pos+10
                     if chrom == primer.chrom and overlap:
                         primer_counts[primer.name].on_target += 1
                     else:
